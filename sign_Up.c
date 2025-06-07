@@ -12,10 +12,31 @@ project:Cmuse
 #define up 72
 #define down 80
 #define enterKey 13
+
+//declaration section
+void signUp();
 int i=0, key=0, val=0, OptionCounter=0;
 
+struct credentials{
+	char fname[30], lname[30], username[80], email[60], password[50];
+	struct dob{
+		int day, month, year;
+	}d;
+};
+
+char *SignIn_Options[] =
+{
+	"Sign In",
+	"Sign Up",
+	"Forgot Password",
+	"Contact Admin",
+	"Exit",
+};
+//------------------- functions ------------------
+//1. funtion for c_muse art
 void ThemeArt()
 {
+	system("cls");
 	printf("      ___                             ___           ___           ___           ___     \n");
 	printf("     /  /\\                           /__/\\         /__/\\         /  /\\         /  /\\    \n");
 	printf("    /  /:/                          |  |::\\        \\  \\:\\       /  /:/_       /  /:/_   \n");
@@ -31,15 +52,7 @@ void ThemeArt()
 	printf("\n\n==================== C based Music Library System ======================\n\n");
 };
 
-char *SignIn_Options[] =
-{
-	"Sign In",
-	"Sign Up",
-	"Forgot Password",
-	"Contact Admin",
-	"Exit",
-};
-
+//2. funtion for SignIn menu page
 void SignInMenu()
 {
 	system("cls");
@@ -59,6 +72,7 @@ void SignInMenu()
 	}
 }
 
+//3. funtion for using arrow keys
 void KeyPress()
 {
 	key=getch();
@@ -87,10 +101,10 @@ void KeyPress()
 		switch(val)
 		{
 			case 0:
-				//SignIn();
+//				SignIn();
 				break;
 			case 1:
-//				SignUp();
+				signUp();
 				break;
 			case 2:
 //				ResetPass();
@@ -102,23 +116,49 @@ void KeyPress()
 				exit(0);
 				break;
 		}
-		getch();
 	}
 }
-//----------------------------------------------------------------------------------------------------------------
-void SignIn()
+
+//4. funtion for SIGN UP
+void signUp()
 {
 	FILE *p;
+	struct credentials input;
+	
 	p=fopen("Credentials.txt","a+");
 	if(p==NULL)
 	{
-		printf("\nsignin failed");
+		printf("\nSignUp failed!");
 		exit(0);
 	}
+	printf("\n************************Sign Up************************");
+	printf("\n\n--------Full Name--------\n");
+	printf("\nEnter First Name = ");
+	scanf("%s",input.fname);
+	printf("Enter Last Name = ");
+	scanf("%s",input.lname);
+	printf("\n\n--------Date of Birth--------\n");
+	printf("Enter year = ");
+	scanf("%d",&input.d.year);
+	printf("Enter Month = ");
+	scanf("%d",&input.d.month);
+	printf("Enter Day = ");
+	scanf("%d",&input.d.day);
+	printf("\n\n--------Email and Password--------\n");	
+	printf("\nEnter Email = ");
+	scanf("%s",input.email);
+	printf("\nEnter Password = ");
+	scanf("%s",input.password);
 	
+	fwrite(&input,sizeof(input),1,p);
+	fclose(p);
+		printf("\nAccount has been created successfully. Please Sign in to access.");
+		val=0;
+	getch();
 }
 
-//===============================main function===============================================
+//===================================
+//#0 MAIN FUNCTION
 int main()
 {
 	while(1)
